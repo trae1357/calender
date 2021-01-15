@@ -28,6 +28,7 @@ $("#display").empty()
 for (let i = 0; i < timeArray.length; i++) {
    var timeSection = ""
 
+   
    if(getCurrentHour> militaryArray[i]){
        timeSection="past"
    }
@@ -36,14 +37,52 @@ for (let i = 0; i < timeArray.length; i++) {
    }
    if(getCurrentHour<militaryArray[i]){
        timeSection="future"
+     
+       
    }
+   var newRow = $("<div class='row'>")
+   var hour = $('<div class="col-sm-1 hour ">').text(timeArray[i])
+   var timeDiv = $('<div class="col-sm-10">')
+   var timeInput = $(`<input class="h-100  form-control ${timeSection} " name="" value="" id="${i}">`)
+   var saveDiv = $('<div class="col-sm-1">')
+   var saveBtn = $('<button data-id="${i}" class= "saveBtn h-100  mr-2">')
 
-   $("#display").append(` <div class="row">
-   <div class="col-sm-1 hour mt-3">${timeArray[i]}</div>
-   <div class="col-sm-10  "> <textarea class="h-100  form-control ${timeSection} " name="" id="${i}"></textarea></div>
-   <div class="col-sm-1"><button data-id="${i}" class="saveBtn h-100 mt-3 mr-2">Save</button></div>
- </div>`)
+
+   saveBtn.text("Save")
+
+   
+   
+//    $("#display").append(` <div class="row">
+//    <div class="col-sm-1 hour mt-3">${timeArray[i]}</div>
+//    <div class="col-sm-10  "> <textarea class="h-100  form-control ${timeSection} " name="" id="${i}"></textarea></div>
+//    <div class="col-sm-1"><button data-id="${i}" class= "saveBtn h-100 mt-3 mr-2">Save</button></div>
+//  </div>`)
+   newRow.append(hour)
+   timeDiv.append(timeInput)
+   newRow.append(timeDiv)
+   saveDiv.append(saveBtn)
+   newRow.append(saveDiv)
+   $("#display").append(newRow)
+
+    saveBtn.click(function(){
+        localStorage.setItem(timeArray[i], JSON.stringify(timeInput.val()))
+        console.log("saveBtn")
+        console.log($(timeInput).val())
+        console.log(timeInput)
+        
+    });
     
+    var timeInput_obj = JSON.stringify(timeInput);
+    console.log(timeInput_obj);
+    
+      
+    localStorage.setItem("timeInput", timeInput_obj);
+    console.log(localStorage);
+
+    var timeInput_dobj = JSON.parse(localStorage.getItem("timeInput"));
+    console.log(timeInput_dobj);
+    // document.getElementById("input").innerHTML =localStorage.getItem(timeInput);
+   
 }
 
 //onclick for savebtn
